@@ -1,0 +1,12 @@
+# Utiliser l'image de base Debian
+FROM debian:latest
+
+# Mettre à jour les packages et installer quelques outils de base
+RUN apt-get update && apt-get install -y \
+    vim \
+    curl \
+    wget \
+    git
+
+# Commande par défaut
+CMD ["bash"]

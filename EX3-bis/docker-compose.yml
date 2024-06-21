@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  web:
+  
+    build: ./app
+    ports:
+      - "6060:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URI=mysql+pymysql://root:example@db/mydatabase
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=tutu
+      - MYSQL_DATABASE=mydatabase
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  db_data:

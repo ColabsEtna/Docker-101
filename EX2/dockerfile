@@ -1,0 +1,11 @@
+# Utiliser l'image de base Python
+FROM python:3.9-slim
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier le script Python dans le conteneur
+COPY app.py .
+
+# Exécuter le script Python
+CMD ["python", "app.py"]
